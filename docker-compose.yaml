@@ -6,3 +6,23 @@ registry:
     volumes:
         - ./data/registry:/var/lib/registry
         - ./configs/registry/certs:/certs
+
+jenkins:
+    build: docker/jenkins
+    environment:
+        - JAVA_OPTS:-Djava.awt.headless=true
+    volumes:
+        - ./data/jenkins/home:/var/jenkins_home
+    ports:
+        - "8080:8080"
+
+db:
+    image: postgres
+    volumes:
+        - ./data/postgres:/var/lib/postgresql
+    environment:
+        - POSTGRESQL_USER=sonar
+        - POSTGRESQL_PASS=sonar
+        - POSTGRESQL_DB=sonar
+    ports:
+        - "5432:5432"
